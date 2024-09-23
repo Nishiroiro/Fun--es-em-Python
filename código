@@ -1,0 +1,42 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Exemplo de carregamento de dados (substituir com os dados reais da ONG)
+# csv pode ser trocado por outra fonte de dados (JSON, API, banco de dados)
+dados = pd.read_csv('dados_ong.csv')
+
+# Limpeza básica dos dados (remover duplicatas e lidar com dados faltantes)
+dados.drop_duplicates(inplace=True)
+dados.fillna(0, inplace=True)  # ou dados.dropna() para remover linhas com valores nulos
+
+# Exemplo de sumarização dos dados para entender a distribuição
+print(dados.describe())
+
+# Organizar e agregar dados para insights estratégicos
+# Exemplo: Alocação de recursos por projeto
+alocacao_recursos = dados.groupby('projeto')['recursos'].sum().reset_index()
+
+# Visualizar a alocação de recursos por projeto
+plt.figure(figsize=(10, 6))
+sns.barplot(x='projeto', y='recursos', data=alocacao_recursos)
+plt.title('Alocação de Recursos por Projeto')
+plt.xlabel('Projeto')
+plt.ylabel('Total de Recursos')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# Visualizar a eficiência das ações sociais
+# Exemplo: Impacto por ação
+impacto_acao = dados.groupby('acao_social')['impacto'].mean().reset_index()
+
+plt.figure(figsize=(10, 6))
+sns.barplot(x='acao_social', y='impacto', data=impacto_acao)
+plt.title('Impacto Médio por Ação Social')
+plt.xlabel('Ação Social')
+plt.ylabel('Impacto Médio')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
